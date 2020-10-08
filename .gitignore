@@ -1,0 +1,20 @@
+### Helm ###
+# Chart dependencies
+**/charts/*.tgz
+
+/node_modules/
+.DS_Store
+
+# Sublime text editor stuff
+*.sublime-workspace
+*.sublime-project
+
+# PHPStorm stuff
+.idea
+
+# docker-sync stuff
+.docker-sync
+
+.env
+.env.*
+!.env.dist

@@ -1,0 +1,10 @@
+apiVersion: cloud.google.com/v1beta1
+kind: BackendConfig
+metadata:
+  name: php-and-nginx-backendconfig
+spec:
+  healthCheck:
+    checkIntervalSec: 65
+    port: 80
+    type: http
+    requestPath: /whoa

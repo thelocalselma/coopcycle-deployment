@@ -1,0 +1,99 @@
+# Defines a k8s pod containing a PHP-FPM app and nginx webserver.
+# nginx talks to the PHP-FPM app through FastCGI.
+# nginx serves static resources copied from the app container.
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: php-and-nginx-pod-deployment
+  labels:
+    component: php-and-nginx
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      component: php-and-nginx
+  template:
+    metadata:
+      labels:
+        component: php-and-nginx
+    spec:
+      volumes:
+        # Shared files for nginx to serve and PHP to execute; fill upon start
+        - name: app-files
+          emptyDir: {}
+
+        # ConfigMap for nginx
+        - name: nginx-config-volume
+          configMap:
+            name: server-nginx-config
+
+        # Symfony .env file
+        - name: php-env-config
+          configMap:
+            name: php-env-config
+
+        # JWT keypair
+        - name: web-secret
+          secret:
+            secretName: web-secret
+
+      containers:
+        # PHP-FPM symfony app
+        - image: jasonprado/coopcycle-web:latest
+          imagePullPolicy: Always
+          name: app
+          ports:
+          - name: fastcgi
+            containerPort: 9000
+          livenessProbe:
+            tcpSocket:
+              port: 9000
+            initialDelaySeconds: 63
+            periodSeconds: 64
+          resources:
+            limits:
+              memory: "256Mi"
+              cpu: "500m"
+          volumeMounts:
+            - name: app-files
+              mountPath: /var/www/html
+            - name: php-env-config
+              mountPath: /server/.env
+              subPath: .env
+            - name: web-secret
+              mountPath: /server/var/jwt/public.pem
+              subPath: web-secret-public.pem
+            - name: web-secret
+              mountPath: /server/var/jwt/private.pem
+              subPath: web-secret-private.pem
+
+          # After the app container starts, copy app resources out into the shared folder for nginx to serve.
+          lifecycle:
+            postStart:
+              exec:
+                command: ["/bin/sh", "-c", "cp -rp /server/. /var/www/html || true"]
+
+        - image: nginx:1.7.9
+          name: nginx
+          ports:
+          - name: web
+            containerPort: 80
+          volumeMounts:
+            - name: app-files
+              mountPath: /var/www/html
+            - name: nginx-config-volume
+              mountPath: /etc/nginx/nginx.conf
+              subPath: nginx.conf
+          # HTTP Health Check
+          livenessProbe:
+            httpGet:
+              path: /en
+              port: 80
+            initialDelaySeconds: 60
+            periodSeconds: 61
+            timeoutSeconds: 62
+          resources:
+            limits:
+              memory: "128Mi"
+              cpu: "500m"
