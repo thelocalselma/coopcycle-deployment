@@ -5,7 +5,7 @@ metadata:
   annotations:
     kubernetes.io/ingress.class: nginx
     kubernetes.io/ingress.global-static-ip-name: "web-static-ip"
-    cert-manager.io/issuer: "letsencrypt-staging"
+    cert-manager.io/issuer: "letsencrypt-prod"
 spec:
   backend:
     serviceName: php-and-nginx-service
@@ -15,9 +15,10 @@ spec:
     - thelocal.jason.soy
     secretName: letsencrypt-tls
   rules:
-  - http:
-      paths:
-      - path: /
-        backend:
-          serviceName: php-and-nginx-service
-          servicePort: web
+    - host: thelocal.jason.soy
+      http:
+        paths:
+        - path: /
+          backend:
+            serviceName: php-and-nginx-service
+            servicePort: web
