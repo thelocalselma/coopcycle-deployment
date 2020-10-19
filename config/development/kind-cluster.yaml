@@ -1,3 +1,4 @@
+# Kind (Kubernetes-in-Docker) is a way to run a local k8s cluster, similar to MiniKube
 # kind create cluster --config kind-cluster.yaml
 kind: Cluster
 apiVersion: kind.x-k8s.io/v1alpha4

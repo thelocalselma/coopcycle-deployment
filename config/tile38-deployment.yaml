@@ -1,0 +1,23 @@
+# Tile38 is a real-time geofencing database used to serve the tracking and
+# dispatch APIs.
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tile38-deployment
+  labels:
+    component: tile38
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      component: tile38
+  template:
+    metadata:
+      labels:
+        component: tile38
+    spec:
+      containers:
+      - name: tile38
+        image: tile38/tile38
+        ports:
+        - containerPort: 9851

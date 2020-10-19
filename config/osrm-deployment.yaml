@@ -1,0 +1,22 @@
+# OSRM is a high-performance routing engine for shortest path computation.
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: osrm-deployment
+  labels:
+    component: osrm
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      component: osrm
+  template:
+    metadata:
+      labels:
+        component: osrm
+    spec:
+      containers:
+      - image: mpancia/coopcycle:osrm-selma-alabama-us
+        name: osrm
+        ports:
+        - containerPort: 5000

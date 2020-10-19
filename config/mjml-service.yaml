@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: mjml
+spec:
+  selector:
+    component: mjml
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
