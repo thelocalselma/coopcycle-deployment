@@ -40,7 +40,7 @@ spec:
 
       containers:
         # PHP-FPM symfony app
-        - image: jasonprado/coopcycle-web:latest
+        - image: thelocal/coopcycle-web:latest
           imagePullPolicy: Always
           name: app
           ports:

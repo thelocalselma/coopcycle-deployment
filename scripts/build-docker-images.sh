@@ -24,7 +24,7 @@ SCRIPT_DIR=$(pwd)
 APP_DIR="$SCRIPT_DIR"/../..
 cd -
 
-CONTAINER_TAG_PREFIX=jasonprado
+CONTAINER_TAG_PREFIX=thelocal
 UPLOAD=false
 COOPCYCLE_WEB_PATH="$SCRIPT_DIR"/../../coopcycle-web
 

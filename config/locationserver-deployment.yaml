@@ -24,7 +24,7 @@ spec:
 
       containers:
       - name: locationserver
-        image: jasonprado/coopcycle-locationserver
+        image: thelocal/coopcycle-locationserver
         ports:
         - containerPort: 8000
         - containerPort: 8001

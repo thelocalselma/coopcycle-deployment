@@ -16,7 +16,7 @@ k8s_yaml([
 ])
 
 docker_build(
-  'jasonprado/coopcycle-web',
+  'thelocal/coopcycle-web',
   '../coopcycle-web',
   dockerfile='../coopcycle-web/docker/php/Dockerfile',
   live_update=[
@@ -27,7 +27,7 @@ docker_build(
   ]
 )
 docker_build(
-  'jasonprado/coopcycle-locationserver',
+  'thelocal/coopcycle-locationserver',
   '../coopcycle-web',
   dockerfile='../coopcycle-web/docker/locationserver/Dockerfile',
 )
