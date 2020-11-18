@@ -1,24 +1,24 @@
-apiVersion: networking.k8s.io/v1beta1
+apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: "coopcycle-ingress-service"
   annotations:
     kubernetes.io/ingress.class: nginx
     kubernetes.io/ingress.global-static-ip-name: "web-static-ip"
-    cert-manager.io/issuer: "letsencrypt-prod"
+    cert-manager.io/cluster-issuer: "letsencrypt-staging"
 spec:
-  backend:
-    serviceName: php-and-nginx-service
-    servicePort: web
   tls:
   - hosts:
     - thelocal.jason.soy
     secretName: letsencrypt-tls
   rules:
-    - host: thelocal.jason.soy
-      http:
-        paths:
-        - path: /
-          backend:
-            serviceName: php-and-nginx-service
-            servicePort: web
+  - host: thelocal.jason.soy
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: php-and-nginx-service
+            port:
+              name: web

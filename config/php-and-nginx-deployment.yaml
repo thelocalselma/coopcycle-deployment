@@ -70,7 +70,7 @@ spec:
               exec:
                 command: ["/bin/sh", "-c", "cp -rp /server/. /var/www/html || true"]
 
-        - image: nginx:1.7.9
+        - image: nginx:1.19.4
           name: nginx
           ports:
           - name: web
@@ -82,10 +82,10 @@ spec:
               mountPath: /etc/nginx/nginx.conf
               subPath: nginx.conf
           # HTTP Health Check
-          livenessProbe:
-            httpGet:
-              path: /en
-              port: 80
-            initialDelaySeconds: 60
-            periodSeconds: 61
-            timeoutSeconds: 62
+          # livenessProbe:
+          #   httpGet:
+          #     path: /en
+          #     port: 80
+          #   initialDelaySeconds: 60
+          #   periodSeconds: 61
+          #   timeoutSeconds: 62

@@ -1,0 +1,33 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: debug-php-pod
+  labels:
+    component: debug-php
+spec:
+  volumes:
+
+    # Symfony .env file
+    - name: php-env-config
+      configMap:
+        name: php-env-config
+
+    # JWT keypair
+    - name: web-secret
+      secret:
+        secretName: web-secret
+
+  containers:
+  - name: debug-php
+    image: thelocal/coopcycle-web:latest
+    imagePullPolicy: Always
+    volumeMounts:
+    - mountPath: /server/.env
+      name: php-env-config
+      subPath: .env
+    - mountPath: /server/var/jwt/public.pem
+      name: web-secret
+      subPath: web-secret-public.pem
+    - mountPath: /server/var/jwt/private.pem
+      name: web-secret
+      subPath: web-secret-private.pem
